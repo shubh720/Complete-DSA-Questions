@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<string> v;
+
+// recursion function
+void maxScoreValue(int i,int n,string str[],int charcnt,char ch[],int score[],int wordfreq[],int &count){
+    if(i > n){
+        // print,cal
+        int ar[27] = {0};
+
+        for(int x = 0;x < v.size() ;x++){
+            for(int j = 0;v[x][j] != NULL; j++){
+                ar[int(v[x][j])-96]++;
+            }
+        }
+        bool f = 1;
+        for(int x = 1; x <= 26 ;x++){
+            if(ar[x] > wordfreq[x]){
+                f = 0;
+                break;
+            }
+        }
+
+        int sum = 0;
+        if(f){
+            for(int x = 1; x <= 26; x++){
+                sum += ar[x]*score[x];
+            }
+            count = max(count,sum);
+        }
+
+        return;
+    }
+    
+    // include
+    v.push_back(str[i]);
+    maxScoreValue(i+1,n,str,charcnt,ch,score,wordfreq,count);
+    v.pop_back();
+    
+    // don't include
+    maxScoreValue(i+1,n,str,charcnt,ch,score,wordfreq,count);
+ return;
+}
+
+// provide function
+int maxScore(int n,string str[],int charcnt,char ch[],int score[]){
+  
+  // to calc count of ch ,char array
+  int wordfreq[27] = {0};
+  for(int i = 1;i <= charcnt ;i++){
+      wordfreq[int(ch[i]-96)]++;
+  }
+
+  int count = 0;
+  maxScoreValue(1,n,str,charcnt,ch,score,wordfreq,count);
+  return count;
+}
+
+int main(){
+  
+ int n;
+ cin >> n;
+
+ string str[n+1];
+    for(int i=1 ;i <= n; i++){
+        cin >> str[i];
+    }
+   
+ int charcnt;
+ cin >> charcnt;
+
+ char ch[charcnt+1];
+    for(int i=1 ;i <= charcnt; i++){
+        cin >> ch[i];
+    }
+
+ int score[27];
+    for(int i=1;i<=26;i++){
+        cin >> score[i];
+    }
+
+    cout << maxScore(n,str,charcnt,ch,score) << endl;
+  return 0;  
+}
