@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<vector<pair<int,int>>> mat;
+
+bool canPlace(int i,int j,int n,int grid[][100]){
+    for(int x = 0; x < n ; x++){
+        if(grid[i][x] == 1){
+            return false;
+        }
+    }
+    for(int x = 0; x < n ; x++){
+        if(grid[x][j] == 1){
+            return false;
+        }
+    }
+    for(int x = i,y = j;x >= 0 && y < n; x--,y++){
+        if(grid[x][y] == 1){
+            return false;
+        }
+    }
+    for(int x = i,y = j;x < n && y >= 0; x++,y--){
+        if(grid[x][y] == 1){
+            return false;
+        }
+    }
+    for(int x = i,y = j;x >= 0 && y >= 0; x--,y--){
+        if(grid[x][y] == 1){
+            return false;
+        }
+    }
+    for(int x = i,y = j;x < n && y < n; x++,y++){
+        if(grid[x][y] == 1){
+            return false;
+        }
+    }
+   return true; 
+}
+
+bool N_queen(int i,int n,int grid[][100]){
+    // base case
+    if(i == n){
+        // print
+        vector<pair<int,int>> v;
+        for(int x = 0; x < n; x++){
+            for(int y = 0;y < n; y++){
+                if(grid[x][y] == 1){
+                    v.push_back(make_pair(x,y));
+                }
+            }
+        }
+        mat.push_back(v);
+        return false;
+    }
+
+    // recursive case
+    for(int j=0;j<n;j++){
+        if(canPlace(i,j,n,grid) == true){
+            // true can place it's safe
+            grid[i][j] = 1;
+            bool recursionkaAns = N_queen(i+1,n,grid);
+            if(recursionkaAns == true){
+                return true;
+            }
+
+            // yaha mtlab false
+            grid[i][j] = 0;
+        }
+    }
+ // loop khtm
+  return false;
+}
+
+int main(){
+ 
+  int n;
+  cin >> n;
+
+  int grid[n][100] = {0};  
+
+    N_queen(0,n,grid);
+
+    for(auto x:mat){
+        for(auto y:x){
+            cout << y.first << "-" << y.second << ", ";
+        }
+        cout << "." << endl;
+    }
+
+  return 0;  
+}
