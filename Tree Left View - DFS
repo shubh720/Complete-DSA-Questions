@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+string s1 = "true",s2 = "t";
+vector<int> v;
+
+class node{
+ public:
+     int data;
+     node *left, *right;
+
+     node(int data){
+         this -> data = data;
+         left = right = NULL;
+     }
+};
+
+node* createTree(node* root){
+ 
+ int data;
+ cin >> data; 
+ queue<node*> q;
+ if(data != -1) root = new node(data);
+ else return NULL;
+
+ q.push(root);
+	while(!q.empty()){
+		node* top = q.front();
+		q.pop();
+
+		cin >> data;
+		if(data != -1){
+			node* temp = new node(data);
+			top -> left = temp;
+			q.push(temp);
+		}
+		cin >> data;
+		if(data != -1){
+			node* temp = new node(data);
+			top -> right = temp;
+			q.push(temp);
+		}
+	}
+ return root;
+}
+
+
+void print(node* root,int level,int &maxlevel){
+  
+  if(root == NULL) return;
+
+  // check level visited 
+  if(maxlevel < level){
+	  cout << root -> data << " ";
+	  maxlevel = level;
+  }
+
+  print(root -> left,level+1,maxlevel);
+  print(root -> right,level+1,maxlevel);
+  return;
+}
+
+int main(){
+
+ node* root = NULL;
+ root = createTree(root);
+ int maxlevel = -1;
+ print(root,0,maxlevel);
+
+  return 0;
+}
