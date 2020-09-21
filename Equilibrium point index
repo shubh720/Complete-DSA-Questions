@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+	
+	ll t;
+	cin >> t;
+	    while(t--){
+	        ll n;
+	        cin >> n;
+	        
+	        vector<ll> ar;
+	        ar.push_back(0);
+	        for(int i=1; i<=n; i++){
+	            int num;
+	            cin >> num;
+	            ar.push_back(num);
+	        }
+	        
+	        vector<ll> lsum,rsum;
+	        lsum.push_back(0);
+	        rsum.push_back(0);
+	        
+	        for(int i=1; i<=n; i++){
+	            ll num = lsum[i-1] + ar[i-1];
+	            lsum.push_back(num);
+	        }
+	        
+	        ll sum = 0;
+	        for(int i=n-1; i>=0; i--){
+	            ll num = sum + ar[i+1];
+	            rsum.push_back(num);
+	            sum += ar[i+1];
+	        }
+	        
+	        reverse(rsum.begin(),rsum.end());
+	        
+	        bool f=0;
+	        for(int i=1; i<=n; i++){
+	            if(lsum[i] == rsum[i]){
+	                cout << i << endl;
+	                f=1;
+	                break;
+	            }
+	        }
+	        
+	        
+	        if(f == 0) cout << "-1" << endl;
+	        
+	    }
+	return 0;
+}
