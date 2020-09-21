@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+
+ ll t;
+ cin >> t;
+ 
+    while(t--){
+        ll n,s;
+        cin >> n >> s;
+        
+        vector<ll > ar;
+        ar.push_back(0);
+        for(int i=1;i<=n;i++){
+            int num;
+            cin >> num;
+            ar.push_back(num);
+        }
+        
+        ll st = 1, e = 1;
+        ll csum = 0;
+        bool f = 1;
+        while(e <= n){
+            csum += ar[e];
+            
+            if(csum > s){
+                while(csum > s && st < e){
+                    csum -= ar[st];
+                    st++;
+                }
+            }
+            
+            if(csum == s){
+                cout << st << " " << e << endl;
+                f = 0;
+                break;
+            }
+         e++;
+         //cout << csum << " ";
+        }
+        
+        if(f) cout << "-1" << endl;
+         //cout << csum << " " ;
+    }
+
+	
+ return 0;
+}
