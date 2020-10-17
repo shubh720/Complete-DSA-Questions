@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+   
+   int n;
+   cin >> n;
+
+   unordered_map<int,bool> mymap;
+
+   bool f = 0; 
+   while(true){
+       // false kab kab hoga? 1. sum repeat  2. miljae
+        int temp = n;
+        int sum = 0;
+        while(temp > 0){
+           long long power = temp % 10; 
+           sum += power*power;
+           temp /= 10;
+        }
+
+        //cout << sum << " ";
+        if(sum == 1){
+            f = 1;
+            break;
+        }
+        if(mymap[sum] == 1){
+            f = 0;
+            break;
+        }  
+        n = sum;
+        mymap[sum] = 1; 
+   }
+
+   if(f) cout << "true" << endl;
+   else cout << "false" << endl;
+
+    return 0;
+} 
