@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void QueenPlace(int i,int j,int qpsf,int tq,int mat[][10],bool *visited,string ans){
+    if(i == tq-1 && j == tq){
+        if(qpsf == tq){
+            cout << ans << "\n";
+        }
+      return;
+    }
+
+    if(j == tq){
+        QueenPlace(i+1,0,qpsf,tq,mat,visited,ans + '\n');
+        return;
+    }
+
+
+    for(int queen=1; queen <= tq; queen++){
+        if(visited[queen] == 0){
+            visited[queen] = 1;
+            QueenPlace(i,j+1,qpsf+1,tq,mat,visited,ans + "q" + char(queen + 48) + " ");
+            visited[queen] = 0;
+        }
+    }
+
+    QueenPlace(i,j+1,qpsf,tq,mat,visited,ans + "- ");
+}
+
+
+int main(){
+    
+    int n;
+    cin >> n;
+
+    int mat[10][10];
+    memset(mat,0,sizeof mat);
+
+    bool visited[10];
+    memset(visited,0,sizeof visited);
+
+    QueenPlace(0,0,0,n,mat,visited,"");
+
+    return 0;
+}
