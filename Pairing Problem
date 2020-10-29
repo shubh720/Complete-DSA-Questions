@@ -1,0 +1,56 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+unordered_map<ll,list<ll>> mymap;
+
+void addEdge(ll src,ll dest){
+    mymap[src].push_back(dest);
+    mymap[dest].push_back(src);
+}
+
+int dfs(int src,unordered_map<ll,bool> &visited){
+    visited[src] = 1;
+
+    ll total = 1;
+    for(auto x : mymap[src]){
+        if(visited[x] == 0){
+            total += dfs(x,visited);
+        }
+    }
+ return total;
+}
+
+void solve(int n){
+    // nodes count from dfs
+    unordered_map<ll,bool> visited;
+    for(auto x : mymap)
+        visited[x.first] = false;
+    
+    ll total = (n*(n-1)) / 2;
+    for(auto x : mymap){
+        if(visited[x.first] == 0){
+            int nodes = dfs(x.first,visited);
+            //cout << nodes << " ";
+            total -= (nodes*(nodes-1))/2;
+        }
+    }
+    cout << total << endl;
+ return;
+}
+
+int main(){
+
+    int n,edges;
+    cin >> n >> edges;
+
+    // this will create adjacency list
+    for(int i=0; i<edges; i++){
+        ll src,dest;
+        cin >> src >> dest;
+        addEdge(src,dest);
+    }
+
+    solve(n);
+
+ return 0;
+}
