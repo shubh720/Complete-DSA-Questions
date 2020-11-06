@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+using namespace std;
+int hor[] = {0,0,1,-1};
+int ver[] = {1,-1,0,0};
+
+void dfs_helper(int i,int j,int board[][101],int n,int m){
+    board[i][j] = 0;
+
+    for(int k=0; k<4; k++){
+        int r = i + ver[k];
+        int c = j + hor[k];
+        if(r >= 0 && c >= 0 && r < n && c < m && board[r][c] != 0){
+            dfs_helper(r,c,board,n,m);
+        }
+    }
+}
+
+int dfs(int r,int c,int board[][101]){
+
+    int time = 0;
+    for(int i=0; i<r; i++){
+        for(int j=0; j<c; j++){
+            if(board[i][j] == 2){
+                dfs_helper(i,j,board,r,c);
+                time++;
+            }
+        }
+    }
+    for(int i=0; i<r; i++){
+        for(int j=0; j<c; j++){
+            if(board[i][j] == 1){
+                time = -1;
+                break;
+            }
+        }
+    }
+    
+    return time;
+}
+
+int main(){
+
+    int t;
+    cin >> t;
+
+        while(t--){
+            int r,c;
+            cin >> r >> c;
+
+            int board[101][101];
+            for(int i=0; i<r; i++){
+                for(int j=0; j<c; j++){
+                    cin >> board[i][j];
+                }
+            }
+
+            cout << dfs(r,c,board) << endl;
+        }
+    
+    return 0;
+}
