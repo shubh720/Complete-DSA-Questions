@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool cmp(string s,string c,queue<string> &q,vector<string> &dict){
+    int len = dict[0].size();
+    int visit[26] = {0};
+
+    for(int i=0; i<len; i++){
+        visit[s[i] - 'a']++;
+    }
+    for(int i=0; i<len; i++){
+        visit[c[i] - 'a']--;
+    }
+
+    int cnt = 0;
+    for(int i=0; i<26; i++){
+        if(visit[i] != 0){
+            cnt++;
+        }
+    }
+    if(cnt == 2) 
+        return true;
+    else 
+        return false;
+}
+
+void bfs(string s1,string s2,vector<string> dict){
+    int n = dict.size();
+    unordered_map<string,bool> visit;
+    for(auto x : dict)
+        visit[x] = 0;
+
+    queue<string> q;
+    q.push(s1);
+
+    queue<int> cnt;
+    cnt.push(1);
+	bool f = 0;
+    while(!q.empty()){
+        string top = q.front();
+        int val = cnt.front();
+        q.pop();
+
+        //cout << top << " : " << val << endl;
+        if(top == s2){
+            f = 1;
+			break;
+        }
+        cnt.pop();
+        for(int i=0; i<dict.size(); i++){
+            string cap = dict[i];
+            if(visit[cap] == 0 && cmp(top,cap,q,dict)){
+                q.push(cap);
+                cnt.push(val+1);
+                visit[cap] = 1;
+            }
+        }
+         
+    }
+    if(f) cout << cnt.front() << endl;
+	else cout << "0" << endl;
+}
+
+
+int main(){
+
+    string s1,s2;
+    cin >> s1 >> s2;
+
+    int n;
+    cin >> n;
+    vector<string> dict;
+        while(n--){
+            string s;
+            cin >> s;
+            dict.push_back(s);
+        }
+    
+    bfs(s1,s2,dict);
+
+    return 0;
+}
