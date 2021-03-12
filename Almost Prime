@@ -1,0 +1,52 @@
+/*
+    SHUBH KUMAR 
+*/
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long 
+#define pb push_back
+#define popb pop_back
+#define um unordered_map
+
+
+int seive(int n){
+    vector<int> prime(3005,0);
+    prime[0]=prime[1]=1;
+    // to check for every number 1-->n
+    for(int no=2; no<=n; no++){
+        // current number prime?
+        if(prime[no]==0){
+            // all other factors have 1 distinct no : no
+            for(int j=2*no; j<=n; j+=no){
+                prime[j]++; 
+            }
+        }
+    }
+
+    int ans = 0;
+    for(int i=1; i<=n; i++){
+        if(prime[i]==2){
+            ans++;
+        }
+    }
+ return ans;
+}
+
+int main(){
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt","r",stdin);
+        freopen("output.txt","w",stdout);
+    #endif
+
+
+    int n;
+    cin>>n;
+
+    cout<<seive(n)<<endl;
+
+
+ return 0;       
+}
